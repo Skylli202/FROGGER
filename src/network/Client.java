@@ -7,25 +7,24 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import game.coop.GameFrameCoop;
 import game.solo.GameFrameSolo;
 
 public class Client extends Thread{
 	private int port = 8088;
 	private String ip;
 	private String dataRead;
-	private GameFrameCoop gameFrameCoop;
+	//private GameFrameCoop gameFrameCoop;
 	private GameFrameSolo gameFrameSolo;
 	private boolean isSolo;
 	
 	public boolean running = true;
 	
-	public Client(String ip, int port, GameFrameCoop gameFrameCoop) {
-		this.ip=ip;
-		this.port=port;
-		this.gameFrameCoop = gameFrameCoop;
-		this.isSolo = false;
-	}
+//	public Client(String ip, int port, GameFrameCoop gameFrameCoop) {
+//		this.ip=ip;
+//		this.port=port;
+//		this.gameFrameCoop = gameFrameCoop;
+//		this.isSolo = false;
+//	}
 	
 	public Client(String ip, int port, GameFrameSolo gameFrameSolo) {
 		this.ip=ip;
@@ -62,7 +61,7 @@ public class Client extends Thread{
 				if(isSolo) {
 					sendMessage(printWriter, gameFrameSolo.getUserData());
 				} else {
-					sendMessage(printWriter, gameFrameCoop.getUserData());
+					//sendMessage(printWriter, gameFrameCoop.getUserData());
 				}
 				
 //				if(dataRead.equals("Pong")) {
