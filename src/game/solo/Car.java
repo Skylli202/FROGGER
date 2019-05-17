@@ -125,4 +125,8 @@ public class Car extends Entity {
 		}
 		return null;
 	}
+	
+	public String toString() {
+		return "hello i'm a car";
+	}
 }

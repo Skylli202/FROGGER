@@ -1,7 +1,9 @@
 package TCPExemple;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -10,7 +12,7 @@ import game.solo.BiblioEntity;
 
 public class TestServeurThreadTCP extends Thread {
 	
-	final static int port = 9632;
+	final static int port = 8090;
 	private Socket socket;
 	
 	public static void main(String[] args) {
@@ -47,9 +49,12 @@ public class TestServeurThreadTCP extends Thread {
 			message = in.readLine();
 			out.println("Bonjour " + message);
 			
-			BiblioEntity bib;
+			InputStream is = socket.getInputStream();
+			ObjectInputStream ois = new ObjectInputStream(is);
+//			Hashtable table = (Hashtable) ois.readObject();
+			BiblioEntity table = (BiblioEntity) ois.readObject();
 			
-			bib = in.read();
+			System.out.println(table.toString());
 			
 			socket.close();
 		} catch (Exception e) {

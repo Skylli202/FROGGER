@@ -44,6 +44,7 @@ public class GameFrameSolo extends JPanel implements ActionListener {
 	public GameFrameSolo(String username, String ipaddress, String port) {
 		this.username = username;
 		
+		//System.out.println("ipaddress : "+ ipaddress);
 		Client client = new Client(ipaddress, Integer.parseInt(port), this);
 		client.start();
 

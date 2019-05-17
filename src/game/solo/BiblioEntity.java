@@ -1,12 +1,16 @@
 package game.solo;
 
 import java.awt.Graphics2D;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Set;
 
-public class BiblioEntity {
+public class BiblioEntity implements Serializable{
 	private Hashtable<String, ArrayList<Entity>> HT;
 	
 	public BiblioEntity() {
@@ -15,11 +19,11 @@ public class BiblioEntity {
 	
 	/*public void setHT(Hashtable<String, ArrayList<Entity>> HT) {
 		this.HT = HT;
-	}
+	}*/
 	
 	public Hashtable<String, ArrayList<Entity>> getHT(){
 		return this.HT;
-	}*/
+	}
 	
 	public void put(String s, ArrayList<Entity> list) {
     	HT.put(s, list);
@@ -162,6 +166,27 @@ public class BiblioEntity {
     		}
     }
 	
+	private void readObject(ObjectInputStream aInputStream)
+			throws ClassNotFoundException, IOException {
+		// perform the default de-serialization first
+        aInputStream.defaultReadObject();
+ 
+        // ensure that object state has not been corrupted or tampered with malicious code
+        //validateUserInfo();
+	}
+
+	private void writeObject(ObjectOutputStream aOutputStream) 
+			throws IOException {
+        
+        //ensure that object is in desired state. Possibly run any business rules if applicable.
+        //checkUserInfo();
+         
+        // perform the default serialization for all non-transient, non-static fields
+        aOutputStream.defaultWriteObject();
+    }
 	
+	public String toString(){
+		return this.HT.toString();
+	}
 	
 }

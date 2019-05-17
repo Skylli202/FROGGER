@@ -1,8 +1,10 @@
 package game.solo;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.io.Serializable;
 
-public abstract class Entity {
+public abstract class Entity implements Serializable {
 
     int x, y, initialX, initialY;
 
