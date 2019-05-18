@@ -54,7 +54,7 @@ public class TestServeurThreadTCP extends Thread {
 //			Hashtable table = (Hashtable) ois.readObject();
 			BiblioEntity table = (BiblioEntity) ois.readObject();
 			
-			System.out.println(table.toString());
+			System.out.println(table);
 			
 			socket.close();
 		} catch (Exception e) {

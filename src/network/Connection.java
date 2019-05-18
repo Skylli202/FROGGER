@@ -52,6 +52,7 @@ public class Connection extends Thread {
     				username = getUsername(dataRead, readUserData(dataRead));
     				score = getUserScore(dataRead, readUserData(dataRead));
     				textArea.append(username+" : "+score+" points. \n");
+    				System.out.println(username+" : "+score+" points. \n");
     				scoreManager.write(username, score);
 //    				Thread t = new Thread(scoreManager);
 //    				t.start();

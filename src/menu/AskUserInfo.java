@@ -20,7 +20,8 @@ public class AskUserInfo implements ActionListener{
 	private boolean isSolo;
 	
 	private static JTextField user = new JTextField("Skylli");
-	private static JTextField ipaddr = new JTextField("192.168.1.20");
+//	private static JTextField ipaddr = new JTextField("192.168.1.20");
+	private static JTextField ipaddr = new JTextField("192.168.1.18");
 	private static JTextField localPort = new JTextField("8088");
 	
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
