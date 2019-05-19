@@ -20,10 +20,13 @@ public class ServFrogger extends JFrame {
 	private JTabbedPane tabbedPane;
 	private JPanel connexionPanel;
 	private JPanel scorePanel;
+	private JPanel logPanel;
 	private JScrollPane connexionScrollPane;
 	private JScrollPane scoreScrollPane;
+	private JScrollPane logScrollPane;
 	private JTextArea connexionTextArea;
 	public JTextArea scoreTextArea;
+	public JTextArea logTextArea;
 
 	// Network declaration
 	private static final int port = 8088;
@@ -51,6 +54,7 @@ public class ServFrogger extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		setTitle("[E.G.] Server Frogger");
 		contentPane.setLayout(new BorderLayout(0, 0));
 
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -89,13 +93,31 @@ public class ServFrogger extends JFrame {
 		
 		scoreScrollPane.add(scoreTextArea);
 		scoreScrollPane.setViewportView(scoreTextArea);
+		
+		// Log Tob
+		logPanel = new JPanel();
+		tabbedPane.addTab("Logs",  null, logPanel, "Logs of data Received");
+		logPanel.setLayout(new BorderLayout(0, 0));
+		
+		logScrollPane = new JScrollPane();
+		logPanel.add(logScrollPane);
+		
+		logTextArea = new JTextArea();
+		logTextArea.setLineWrap(true);
+		logTextArea.setEditable(false);
+		DefaultCaret logCaret = (DefaultCaret)logTextArea.getCaret();
+		logCaret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		
+		logScrollPane.add(logTextArea);
+		logScrollPane.setViewportView(logTextArea);
 	}
 
 	public void running() {
-//		JTextArea tab[] = new JTextArea[2];
+		JTextArea tab[] = new JTextArea[1];
 //		tab[0] = connexionTextArea;
 //		tab[1] = scoreTextArea;
-//		spamTextArea(tab);
+		tab[0] = logTextArea;
+		spamTextArea(tab);
 		
 		try {
 			serverSocket = new ServerSocket(port);
