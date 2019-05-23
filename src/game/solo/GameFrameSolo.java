@@ -51,13 +51,13 @@ public class GameFrameSolo extends JPanel implements ActionListener {
 		this.username = username;
 		
 		//System.out.println("ipaddress : "+ ipaddress);
-//		client = new Client(ipaddress, Integer.parseInt(port), this);
-		try {
-			socket = new Socket(ipaddress, Integer.parseInt(port));
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		client = new Client(socket, this);
+		client = new Client(ipaddress, Integer.parseInt(port), this);
+//		try {
+//			socket = new Socket(ipaddress, Integer.parseInt(port));
+//		} catch(Exception e) {
+//			e.printStackTrace();
+//		}
+//		client = new Client(socket, this);
 		client.start();
 
 		setFocusable(true);
@@ -157,8 +157,6 @@ public class GameFrameSolo extends JPanel implements ActionListener {
 		updateTimer();
 		player.update();
 		biblioEntity.update();
-		//biblioEntity.sendBiblio();
-		client.sendBiblio(biblioEntity);
 		
 		repaint();
 		if (System.getProperty("os.name").equals("Linux"))

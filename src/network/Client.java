@@ -6,12 +6,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import game.solo.BiblioEntity;
 import game.solo.GameFrameSolo;
+import game.solo.Packet;
 
 public class Client extends Thread{
 	private Socket socket;
@@ -45,22 +46,59 @@ public class Client extends Thread{
 	}
 	
 	public void run() {
+		checkSocket();
 		try {
-			System.out.println("Client started");
+			BufferedReader buffRead = new BufferedReader(
+					new InputStreamReader(
+							socket.getInputStream()));
 			
-			ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-			oos.writeObject(gameFrameSolo.getBiblio());
-			oos.close();
+			PrintWriter printWriter = new PrintWriter(
+					new BufferedWriter(
+							new OutputStreamWriter(
+									socket.getOutputStream())), true);
 			
-			socket.close();
-		} catch(Exception e) {}
+			
+			boolean tmp = true;
+			while(running) {
+				Thread.sleep(100);
+				// little Ping Pong process :)
+				while(tmp) {
+					printWriter.println("Ping");
+					dataRead = buffRead.readLine();
+					if(dataRead.equals("Pong")) {
+						tmp = false;
+						System.out.println("Client connected to the server");
+					}
+				}
+				
+				Packet packet = new Packet(gameFrameSolo.getUsername(),Integer.toString(gameFrameSolo.getScore()),gameFrameSolo.getBiblio());
+				
+				ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+				String str = "lala";
+				oos.writeObject("lala");
+				oos.writeObject(packet);
+				oos.close();
+    		}
+			
+			buffRead.close();
+			printWriter.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
-	public void sendMessage(PrintWriter writer, String msg) {
-		writer.println(msg);
-	}
-	
-	public void sendBiblio(BiblioEntity biblio) {
-	
+	private void checkSocket() {
+		if(this.socket == null) {
+			try {
+				this.socket = new Socket(this.ip, this.port);
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }

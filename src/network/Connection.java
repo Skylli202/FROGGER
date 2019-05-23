@@ -2,81 +2,68 @@ package network;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.OutputStreamWriter;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
 import javax.swing.JTextArea;
 
 import game.solo.BiblioEntity;
+import game.solo.Packet;
 
 public class Connection extends Thread {
 	private Socket socket;
-	private JTextArea textArea;
+	private JTextArea tabJTextArea[];
 	private BufferedReader buffRead;
     private PrintWriter printWriter;
     private boolean running;
+    private boolean connected = false;
     private String dataRead;
     private ScoreManager scoreManager;
     String username = "";
     String score = "";
     
     
-    public Connection(Socket socket, JTextArea textArea) {
+//    public Connection(Socket socket, JTextArea textArea) {
+//    	this.socket = socket;
+//    	this.textArea = textArea;
+//    	running = true;
+//    	scoreManager = new ScoreManager();
+//    }
+    
+    public Connection(Socket socket, JTextArea tab[]) {
     	this.socket = socket;
-    	this.textArea = textArea;
+    	this.tabJTextArea = tab;
     	running = true;
     	scoreManager = new ScoreManager();
     }
     
     public void run() {
-//    	textArea.append("[INFO] nouvelle connexion : \n"+socket+"\n");
     	try {
-    		buffRead = new BufferedReader(
-    				new InputStreamReader(
-    						socket.getInputStream()));
-    		
-    		printWriter = new PrintWriter(
-    				new  BufferedWriter(
-    						new  OutputStreamWriter(
-    								socket.getOutputStream ())),true);
+    		buffRead = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+    		printWriter = new PrintWriter(new  BufferedWriter(new  OutputStreamWriter(socket.getOutputStream ())),true);
     		
     		while(running) {
-//    			dataRead = buffRead.readLine();
-//    			textArea.append("Server receive = "+dataRead);
-    			
-    			if(dataRead.equalsIgnoreCase("Ping")) {
-    				printClient("Pong");
+    			if(!connected) {
+    				dataRead = buffRead.readLine();
+    				// Answer Pong to Ping
+    				if(dataRead.equalsIgnoreCase("Ping")) {
+    					printClient("Pong");
+    					connected = true;
+    				}
     			}
+//    			System.out.println("hello");
     			
-    			if(readUserData(dataRead) != -1) {
-    				username = getUsername(dataRead, readUserData(dataRead));
-    				score = getUserScore(dataRead, readUserData(dataRead));
-    				textArea.append(username+" : "+score+" points. \n");
-    				System.out.println(username+" : "+score+" points. \n");
-    				scoreManager.write(username, score);
-//    				Thread t = new Thread(scoreManager);
-//    				t.start();
-//    				scoreManager.writeDataUser(username, score);
-    			}
+    			ObjectInputStream trial = new ObjectInputStream(socket.getInputStream());
+    			Packet packetReceive = (Packet) trial.readObject();
+    			System.out.println("packetReceive : "+ packetReceive);
     			
-    			if(dataRead.contains("hashtable")) {
-    				System.out.println("this is hastable ? : " + dataRead);
-    			}
-    			 
-    			// --
-    			System.out.println("Connexion avec le client : " + socket.getInetAddress());
+    			// Display data onto ServerFrame
+    			tabJTextArea[1].append(packetReceive.printScore());
+    			tabJTextArea[2].append("Data Received.\n");
     			
-    			InputStream is = socket.getInputStream();
-    			ObjectInputStream ois = new ObjectInputStream(is);
-    			BiblioEntity table = (BiblioEntity) ois.readObject();
-    			
-    			System.out.println(table);
-    			// --
     		}
     		socket.close();
     	} catch(Exception e) {

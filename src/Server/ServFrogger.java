@@ -113,10 +113,10 @@ public class ServFrogger extends JFrame {
 	}
 
 	public void running() {
-//		JTextArea tab[] = new JTextArea[1];
-//		tab[0] = connexionTextArea;
-//		tab[1] = scoreTextArea;
-//		tab[0] = logTextArea;
+		JTextArea tabJTextArea[] = new JTextArea[3];
+		tabJTextArea[0] = connexionTextArea;
+		tabJTextArea[1] = scoreTextArea;
+		tabJTextArea[2] = logTextArea;
 //		spamTextArea(tab);
 		
 		try {
@@ -129,7 +129,7 @@ public class ServFrogger extends JFrame {
 				if(socket != null){
 					connexionTextArea.append("[INFO] nouvelle connexion : \n"+socket+"\n");
 					System.out.println("[INFO] nouvelle connexion : \n"+socket+"\n");
-					Connection connect = new Connection(socket, scoreTextArea);
+					Connection connect = new Connection(socket, tabJTextArea);
 					connect.start();
 				}
 			}
