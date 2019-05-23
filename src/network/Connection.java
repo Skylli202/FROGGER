@@ -2,12 +2,17 @@ package network;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
 import javax.swing.JTextArea;
+
+import game.solo.BiblioEntity;
 
 public class Connection extends Thread {
 	private Socket socket;
@@ -41,7 +46,7 @@ public class Connection extends Thread {
     								socket.getOutputStream ())),true);
     		
     		while(running) {
-    			dataRead = buffRead.readLine();
+//    			dataRead = buffRead.readLine();
 //    			textArea.append("Server receive = "+dataRead);
     			
     			if(dataRead.equalsIgnoreCase("Ping")) {
@@ -56,13 +61,22 @@ public class Connection extends Thread {
     				scoreManager.write(username, score);
 //    				Thread t = new Thread(scoreManager);
 //    				t.start();
-    				//scoreManager.writeDataUser(username, score);
+//    				scoreManager.writeDataUser(username, score);
     			}
     			
-//    			if(dataRead.equals("END")) {
-//    				System.out.println("END COMMAND RECEIVE");
-//    				running = false;
-//    			}
+    			if(dataRead.contains("hashtable")) {
+    				System.out.println("this is hastable ? : " + dataRead);
+    			}
+    			 
+    			// --
+    			System.out.println("Connexion avec le client : " + socket.getInetAddress());
+    			
+    			InputStream is = socket.getInputStream();
+    			ObjectInputStream ois = new ObjectInputStream(is);
+    			BiblioEntity table = (BiblioEntity) ois.readObject();
+    			
+    			System.out.println(table);
+    			// --
     		}
     		socket.close();
     	} catch(Exception e) {

@@ -8,6 +8,9 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -20,6 +23,9 @@ public class GameFrameSolo extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 4L;
 
+	Client client;
+	Socket socket;
+	
 	static Timer mainTimer;
 	static Player player;
 	ImageIcon background = new ImageIcon("./res/backgroundResized2.png");
@@ -45,7 +51,13 @@ public class GameFrameSolo extends JPanel implements ActionListener {
 		this.username = username;
 		
 		//System.out.println("ipaddress : "+ ipaddress);
-		Client client = new Client(ipaddress, Integer.parseInt(port), this);
+//		client = new Client(ipaddress, Integer.parseInt(port), this);
+		try {
+			socket = new Socket(ipaddress, Integer.parseInt(port));
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		client = new Client(socket, this);
 		client.start();
 
 		setFocusable(true);
@@ -84,6 +96,10 @@ public class GameFrameSolo extends JPanel implements ActionListener {
 	
 	public int getScore() {
 		return score;
+	}
+	
+	public BiblioEntity getBiblio() {
+		return biblioEntity;
 	}
 	
 	
@@ -141,6 +157,8 @@ public class GameFrameSolo extends JPanel implements ActionListener {
 		updateTimer();
 		player.update();
 		biblioEntity.update();
+		//biblioEntity.sendBiblio();
+		client.sendBiblio(biblioEntity);
 		
 		repaint();
 		if (System.getProperty("os.name").equals("Linux"))
@@ -162,7 +180,7 @@ public class GameFrameSolo extends JPanel implements ActionListener {
 
 	// init Stuff
 	private void initTimer() {
-		mainTimer = new Timer(10, this);
+		mainTimer = new Timer(10, this); // Timer is 10 base line - pass to 100 to slow down the spam
 		mainTimer.start();
 	}
 

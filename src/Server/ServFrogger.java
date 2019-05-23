@@ -113,32 +113,24 @@ public class ServFrogger extends JFrame {
 	}
 
 	public void running() {
-		JTextArea tab[] = new JTextArea[1];
+//		JTextArea tab[] = new JTextArea[1];
 //		tab[0] = connexionTextArea;
 //		tab[1] = scoreTextArea;
-		tab[0] = logTextArea;
-		spamTextArea(tab);
+//		tab[0] = logTextArea;
+//		spamTextArea(tab);
 		
 		try {
 			serverSocket = new ServerSocket(port);
-			int connectionCpt = 0; // Nb ppl connected
 			boolean running = true;
 
 			while(running) {
-				connexionTextArea.append("Serveur Up attente de connexion \n"); 
+				connexionTextArea.append("Serveur UP attente de connexion... \n"); 
 				socket = serverSocket.accept();
 				if(socket != null){
 					connexionTextArea.append("[INFO] nouvelle connexion : \n"+socket+"\n");
 					System.out.println("[INFO] nouvelle connexion : \n"+socket+"\n");
-					connectionCpt++;
 					Connection connect = new Connection(socket, scoreTextArea);
 					connect.start();
-					
-
-					//while(connectionCpt == 2) {
-						//Thread.sleep(2000);
-						//textArea.append("2 player found \n Starting the party...\n");
-					//}
 				}
 			}
 			serverSocket.close();

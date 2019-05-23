@@ -166,6 +166,10 @@ public class BiblioEntity implements Serializable{
     		}
     }
 	
+	public void sendBiblio() {
+		System.out.println("This code here should send the biblio entity to the server");
+	}
+	
 	private void readObject(ObjectInputStream aInputStream)
 			throws ClassNotFoundException, IOException {
 		// perform the default de-serialization first

@@ -1,7 +1,5 @@
 /Server/
-/Step1/
-/TCPExemple/
-/game/
-/menu/
 /network/
-/scorebord/
+/game/
+/TCPExemple/
+/menu/

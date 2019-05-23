@@ -2,14 +2,19 @@ package network;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import game.solo.BiblioEntity;
 import game.solo.GameFrameSolo;
 
 public class Client extends Thread{
+	private Socket socket;
 	private int port = 8088;
 	private String ip;
 	private String dataRead;
@@ -33,50 +38,29 @@ public class Client extends Thread{
 		this.isSolo = true;
 	}
 	
+	public Client(Socket s, GameFrameSolo gameFrameSolo) {
+		this.socket = s;
+		this.gameFrameSolo = gameFrameSolo;
+		this.isSolo = true;
+	}
+	
 	public void run() {
 		try {
-//			System.out.println("Client started");
-			Socket socket = new Socket(ip,port);
+			System.out.println("Client started");
 			
-			BufferedReader buffRead = new BufferedReader(
-					new InputStreamReader(
-							socket.getInputStream()));
+			ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+			oos.writeObject(gameFrameSolo.getBiblio());
+			oos.close();
 			
-			PrintWriter printWriter = new PrintWriter(
-					new BufferedWriter(
-							new OutputStreamWriter(
-									socket.getOutputStream())), true);
-			boolean tmp = true;
-			while(running) {
-				Thread.sleep(1000);
-				while(tmp) {
-					sendMessage(printWriter, "Ping");
-					dataRead = buffRead.readLine();
-					if(dataRead.equals("Pong")) {
-						tmp = false;
-						System.out.println("Client connected to the server");
-					}
-				}
-				
-				if(isSolo) {
-					sendMessage(printWriter, gameFrameSolo.getUserData());
-				} else {
-					//sendMessage(printWriter, gameFrameCoop.getUserData());
-				}
-				
-//				if(dataRead.equals("Pong")) {
-//					running = false;
-//					sendMessage(printWriter, "END");
-//				}
-			}
-			
-			printWriter.close();
-			buffRead.close();
 			socket.close();
 		} catch(Exception e) {}
 	}
 	
 	public void sendMessage(PrintWriter writer, String msg) {
 		writer.println(msg);
+	}
+	
+	public void sendBiblio(BiblioEntity biblio) {
+	
 	}
 }
