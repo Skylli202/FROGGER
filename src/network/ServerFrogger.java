@@ -50,8 +50,8 @@ public class ServerFrogger {
 					textArea.append("[INFO] nouvelle connexion : \n"+socket+"\n");
 					System.out.println("[INFO] nouvelle connexion : \n"+socket+"\n");
 					connectionCpt++;
-					Connection connect = new Connection(socket, textArea);
-					connect.start();
+//					Connection connect = new Connection(socket, textArea);
+//					connect.start();
 
 					while(connectionCpt == 2) {
 						Thread.sleep(2000);

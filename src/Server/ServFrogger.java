@@ -29,7 +29,7 @@ public class ServFrogger extends JFrame {
 	public JTextArea logTextArea;
 
 	// Network declaration
-	private static final int port = 8088;
+	private static final int port = 8542;
 	private static ServerSocket serverSocket;
 	private static Socket socket;
 
