@@ -4,45 +4,35 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import game.solo.BiblioEntity;
-import game.solo.GameFrameSolo;
-import game.solo.Packet;
+import game.BiblioEntity;
+import game.Packet;
+import game.frame.GameFrameSolo;
 
 public class Client extends Thread{
 	private Socket socket;
-	private int port = 8088;
+	private int port;
 	private String ip;
 	private String dataRead;
-	//private GameFrameCoop gameFrameCoop;
 	private GameFrameSolo gameFrameSolo;
-	private boolean isSolo;
 	
 	public boolean running = true;
-	
-//	public Client(String ip, int port, GameFrameCoop gameFrameCoop) {
-//		this.ip=ip;
-//		this.port=port;
-//		this.gameFrameCoop = gameFrameCoop;
-//		this.isSolo = false;
-//	}
 	
 	public Client(String ip, int port, GameFrameSolo gameFrameSolo) {
 		this.ip=ip;
 		this.port=port;
 		this.gameFrameSolo = gameFrameSolo;
-		this.isSolo = true;
 	}
 	
 	public Client(Socket s, GameFrameSolo gameFrameSolo) {
 		this.socket = s;
 		this.gameFrameSolo = gameFrameSolo;
-		this.isSolo = true;
 	}
 	
 	public void run() {
@@ -57,6 +47,8 @@ public class Client extends Thread{
 							new OutputStreamWriter(
 									socket.getOutputStream())), true);
 			
+			ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+			ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 			
 			boolean tmp = true;
 			while(running) {
@@ -73,15 +65,14 @@ public class Client extends Thread{
 				
 				Packet packet = new Packet(gameFrameSolo.getUsername(),Integer.toString(gameFrameSolo.getScore()),gameFrameSolo.getBiblio());
 				
-				ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-				String str = "lala";
-				oos.writeObject("lala");
+//				oos = new ObjectOutputStream(socket.getOutputStream());
 				oos.writeObject(packet);
-				oos.close();
+				oos.flush();
     		}
 			
 			buffRead.close();
 			printWriter.close();
+			oos.close();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

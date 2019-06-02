@@ -7,7 +7,7 @@ import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.net.Socket;
 
-import game.solo.BiblioEntity;
+import game.BiblioEntity;
 
 public class TestClientTCP{
 	final static int port = 8090;

@@ -5,4 +5,4 @@
  * @author Skylli-Desktop
  *
  */
-package game.solo;
+package game.frame;

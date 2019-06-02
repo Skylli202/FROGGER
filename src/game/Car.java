@@ -1,4 +1,4 @@
-package game.solo;
+package game;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -7,7 +7,11 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
+import game.frame.GameFrameSolo;
+
 public class Car extends Entity {
+	private static final long serialVersionUID = 1L;
+	
 	private int carType;
 	private boolean moveLeftToRight;
 	
@@ -26,9 +30,9 @@ public class Car extends Entity {
 	
 	private void updatePosition() {
 		if(moveLeftToRight) {
-			x += GameFrameSolo.level;
+			x += GameFrameSolo.getLevel();
 		} else {
-			x -= GameFrameSolo.level;
+			x -= GameFrameSolo.getLevel();
 		}
 	}
 	
@@ -40,7 +44,7 @@ public class Car extends Entity {
     	ArrayList<Entity> tempList;
     	
     	//carOne
-    	tempList = GameFrameSolo.biblioEntity.get("carOne");
+    	tempList = GameFrameSolo.getBiblioEntity().get("carOne");
         for(int i = 0;i < tempList.size(); i++){
         	if(tempList.get(i).x <= -100){
         		tempList.remove(tempList.get(i));
@@ -48,11 +52,11 @@ public class Car extends Entity {
         }
 
         if(tempList.get(tempList.size()-1).x <= 350){
-        	GameFrameSolo.biblioEntity.initCar(1);
+        	GameFrameSolo.getBiblioEntity().initCar(1);
         }
     	
     	//carTwo
-    	tempList = GameFrameSolo.biblioEntity.get("carTwo");
+    	tempList = GameFrameSolo.getBiblioEntity().get("carTwo");
         for(int i = 0;i < tempList.size(); i++){
         	if(tempList.get(i).x >= 700){
         		tempList.remove(tempList.get(i));
@@ -60,11 +64,11 @@ public class Car extends Entity {
         }
 
         if(tempList.get(tempList.size()-1).x >= 180){
-        	GameFrameSolo.biblioEntity.initCar(2);
+        	GameFrameSolo.getBiblioEntity().initCar(2);
         }
         
         //carThree
-    	tempList = GameFrameSolo.biblioEntity.get("carThree");
+    	tempList = GameFrameSolo.getBiblioEntity().get("carThree");
         for(int i = 0;i < tempList.size(); i++){
         	if(tempList.get(i).x <= -100){
         		tempList.remove(tempList.get(i));
@@ -72,11 +76,11 @@ public class Car extends Entity {
         }
 
         if(tempList.get(tempList.size()-1).x <= 400){
-        	GameFrameSolo.biblioEntity.initCar(3);
+        	GameFrameSolo.getBiblioEntity().initCar(3);
         }
         
         //carFour
-		tempList = GameFrameSolo.biblioEntity.get("carFour");
+		tempList = GameFrameSolo.getBiblioEntity().get("carFour");
 		for(int i = 0;i < tempList.size(); i++){
 			if(tempList.get(i).x >= 700){
 				tempList.remove(tempList.get(i));
@@ -84,11 +88,11 @@ public class Car extends Entity {
 		}
 		
 		if(tempList.get(tempList.size()-1).x >= 90){
-			GameFrameSolo.biblioEntity.initCar(4);
+			GameFrameSolo.getBiblioEntity().initCar(4);
 		}
 		
 		//carFive
-    	tempList = GameFrameSolo.biblioEntity.get("carFive");
+    	tempList = GameFrameSolo.getBiblioEntity().get("carFive");
         for(int i = 0;i < tempList.size(); i++){
         	if(tempList.get(i).x <= -100){
         		tempList.remove(tempList.get(i));
@@ -96,7 +100,7 @@ public class Car extends Entity {
         }
 
         if(tempList.get(tempList.size()-1).x <= 400){
-        	GameFrameSolo.biblioEntity.initCar(5);
+        	GameFrameSolo.getBiblioEntity().initCar(5);
         }
         
     }

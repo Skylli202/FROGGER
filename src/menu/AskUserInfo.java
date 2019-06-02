@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import game.solo.MainSolo;
+import game.frame.MainSolo;
 
 public class AskUserInfo implements ActionListener{
 	private JFrame frame;
@@ -20,10 +20,8 @@ public class AskUserInfo implements ActionListener{
 	private boolean isSolo;
 	
 	private static JTextField user = new JTextField("Skylli");
-//	private static JTextField ipaddr = new JTextField("192.168.1.20");
-//	private static JTextField ipaddr = new JTextField("192.168.1.18");
 	private static JTextField ipaddr = new JTextField("127.0.0.1");
-	private static JTextField localPort = new JTextField("8088");
+	private static JTextField localPort = new JTextField("8542");
 	
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	
@@ -82,7 +80,7 @@ public class AskUserInfo implements ActionListener{
 			if(isSolo) {
 				new MainSolo(username, ipaddress, port);
 			} else {
-				// new MainCoop(username, ipaddress, port);
+				// new MainSlave(username, ipaddress, port);
 			}
 			frame.dispose();
 		}

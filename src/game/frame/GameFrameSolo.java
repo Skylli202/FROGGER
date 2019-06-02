@@ -1,4 +1,4 @@
-package game.solo;
+package game.frame;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -8,15 +8,16 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import game.BiblioEntity;
+import game.KeyAdapt;
+import game.Player;
 import network.Client;
 
 public class GameFrameSolo extends JPanel implements ActionListener {
@@ -30,28 +31,26 @@ public class GameFrameSolo extends JPanel implements ActionListener {
 	static Player player;
 	ImageIcon background = new ImageIcon("./res/backgroundResized2.png");
 
-	static int life = 3;
-	static int score = 0;
+	private static int life = 3;
+	private static int score = 0;
 	String username;
-	static int nbArrive = 0;
+	private static int nbArrive = 0;
 
-	static int sec = 30;
+	private static int sec = 30;
 	static int timerCpt = 0;
-	static int intervalWoodCroco = 0;
+	private static int intervalWoodCroco = 0;
 
-	static int level = 1;
-	static int gameLevel = 1;
+	private static int level = 1;
+	private static int gameLevel = 1;
 
 	static ArrayList<Rectangle> endGameArea = new ArrayList<Rectangle>();
 	static ArrayList<Rectangle> hitBox = new ArrayList<Rectangle>();
 
-	static BiblioEntity biblioEntity = new BiblioEntity();
+	private static BiblioEntity biblioEntity = new BiblioEntity();
 
 	public GameFrameSolo(String username, String ipaddress, String port) {
 		this.username = username;
 		
-		//System.out.println("ipaddress : "+ ipaddress);
-//		client = new Client(ipaddress, Integer.parseInt(port), this);
 		try {
 			socket = new Socket(ipaddress, Integer.parseInt(port));
 		} catch(Exception e) {
@@ -62,9 +61,9 @@ public class GameFrameSolo extends JPanel implements ActionListener {
 
 		setFocusable(true);
 		initHitBox();
-		biblioEntity.initFloatable();
-		biblioEntity.initCar();
-		biblioEntity.initSnake();
+		getBiblioEntity().initFloatable();
+		getBiblioEntity().initCar();
+		getBiblioEntity().initSnake();
 		initTimer();
 		initPlayer();
 	}
@@ -79,7 +78,7 @@ public class GameFrameSolo extends JPanel implements ActionListener {
 		hitBoxDraw(g2d, false);
 		writeInfos(g2d);
 		drawEndGameAreaFilled(g2d);
-		biblioEntity.draw(g2d);
+		getBiblioEntity().draw(g2d);
 		drawTimerBar(g2d);
 		drawPlayer(g2d);
 	}
@@ -94,15 +93,9 @@ public class GameFrameSolo extends JPanel implements ActionListener {
 		return username;
 	}
 	
-	public int getScore() {
-		return score;
-	}
-	
 	public BiblioEntity getBiblio() {
-		return biblioEntity;
+		return getBiblioEntity();
 	}
-	
-	
 
 	// Draw things
 	public void drawBackground(Graphics2D g2d) {
@@ -110,16 +103,16 @@ public class GameFrameSolo extends JPanel implements ActionListener {
 	}
 
 	public void writeInfos(Graphics2D g2d) {
-		g2d.drawString("Lifes: " + life, 10, 30);
+		g2d.drawString("Lifes: " + getLife(), 10, 30);
 		g2d.drawString("Score: " + score, 200, 30);
-		g2d.drawString("Current Level: " + gameLevel, 390, 30);
+		g2d.drawString("Current Level: " + getGameLevel(), 390, 30);
 		g2d.drawString("Timer: ", 10, 830);
 	}
 
 	public void drawEndGameAreaFilled(Graphics2D g2d) {
 		ImageIcon winArea = new ImageIcon("./res/win_00.png");
 		for (int i = 0; i < endGameArea.size(); i++) {
-			if (player.Arrive[i])
+			if (player.getArrive()[i])
 				g2d.drawImage(winArea.getImage(), (int) endGameArea.get(i).getX() + 12,
 						(int) endGameArea.get(i).getY() + 10, null);
 		}
@@ -127,7 +120,7 @@ public class GameFrameSolo extends JPanel implements ActionListener {
 
 	public void drawTimerBar(Graphics2D g2d) {
 		g2d.setColor(Color.GREEN);
-		g2d.fillRect(70, 810, sec * 10, 30);
+		g2d.fillRect(70, 810, getSec() * 10, 30);
 	}
 
 	public void drawPlayer(Graphics2D g2d) {
@@ -156,7 +149,7 @@ public class GameFrameSolo extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		updateTimer();
 		player.update();
-		biblioEntity.update();
+		getBiblioEntity().update();
 		
 		repaint();
 		if (System.getProperty("os.name").equals("Linux"))
@@ -167,11 +160,11 @@ public class GameFrameSolo extends JPanel implements ActionListener {
 		timerCpt += 10;
 		if (timerCpt / 1000 == 1) {
 			timerCpt -= 1000;
-			sec--;
-			if (sec == 0) {
-				life--;
+			setSec(getSec() - 1);
+			if (getSec() == 0) {
+				setLife(getLife() - 1);
 				player.resetPos();
-				sec = 30;
+				setSec(30);
 			}
 		}
 	}
@@ -219,5 +212,69 @@ public class GameFrameSolo extends JPanel implements ActionListener {
 
 	public static ArrayList<Rectangle> getEndGameAreaList() {
 		return endGameArea;
+	}
+
+	public static int getLife() {
+		return life;
+	}
+
+	public static void setLife(int life) {
+		GameFrameSolo.life = life;
+	}
+
+	public static int getSec() {
+		return sec;
+	}
+
+	public static void setSec(int sec) {
+		GameFrameSolo.sec = sec;
+	}
+	
+	public static int getScore() {
+		return GameFrameSolo.score;
+	}
+	
+	public static void setScore(int score) {
+		GameFrameSolo.score = score;
+	}
+
+	public static int getLevel() {
+		return level;
+	}
+
+	public static void setLevel(int level) {
+		GameFrameSolo.level = level;
+	}
+
+	public static BiblioEntity getBiblioEntity() {
+		return biblioEntity;
+	}
+
+	public static void setBiblioEntity(BiblioEntity biblioEntity) {
+		GameFrameSolo.biblioEntity = biblioEntity;
+	}
+
+	public static int getNbArrive() {
+		return nbArrive;
+	}
+
+	public static void setNbArrive(int nbArrive) {
+		GameFrameSolo.nbArrive = nbArrive;
+	}
+
+	public static int getGameLevel() {
+		return gameLevel;
+	}
+
+	public static void setGameLevel(int gameLevel) {
+		GameFrameSolo.gameLevel = gameLevel;
+	}
+
+	public static int getIntervalWoodCroco() {
+		return intervalWoodCroco;
+	}
+
+	public static void setIntervalWoodCroco(int intervalWoodCroco) {
+		GameFrameSolo.intervalWoodCroco = intervalWoodCroco;
 	}
 }

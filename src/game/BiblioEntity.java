@@ -1,4 +1,4 @@
-package game.solo;
+package game;
 
 import java.awt.Graphics2D;
 import java.io.IOException;
@@ -11,6 +11,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class BiblioEntity implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	private Hashtable<String, ArrayList<Entity>> HT;
 	
 	public BiblioEntity() {

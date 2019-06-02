@@ -1,4 +1,4 @@
-package game.solo;
+package game;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -7,7 +7,10 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
+import game.frame.GameFrameSolo;
+
 public class Enemy extends Entity {
+	private static final long serialVersionUID = 1L;
 	
 	private boolean isSnake;
 	private int timerCpt;
@@ -34,7 +37,7 @@ public class Enemy extends Entity {
 			x += 1;
 		} else {
 			if((timer%3 == 0) || (timer%3 == 1))
-        		x += GameFrameSolo.level;
+        		x += GameFrameSolo.getLevel();
 		}
 	}
 	
@@ -44,7 +47,7 @@ public class Enemy extends Entity {
 		
 		if(timerCpt++/i == 1) {
 			timerCpt -= i;
-			GameFrameSolo.biblioEntity.initSnake();
+			GameFrameSolo.getBiblioEntity().initSnake();
 		}
 	}
 	
@@ -55,7 +58,7 @@ public class Enemy extends Entity {
 	private void checkIfNotOut() {
 		ArrayList<Entity> tempList;
 		if(isSnake) {
-			tempList = GameFrameSolo.biblioEntity.get("Snake");
+			tempList = GameFrameSolo.getBiblioEntity().get("Snake");
 //			System.out.println(tempList.size());
 			if(tempList.size()>1) {
 				for(int i=0; i<tempList.size(); i++) {

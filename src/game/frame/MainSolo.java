@@ -1,4 +1,4 @@
-package game.solo;
+package game.frame;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;

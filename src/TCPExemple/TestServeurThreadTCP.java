@@ -8,7 +8,7 @@ import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import game.solo.BiblioEntity;
+import game.BiblioEntity;
 
 public class TestServeurThreadTCP extends Thread {
 	

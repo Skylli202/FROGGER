@@ -1,4 +1,4 @@
-package game.solo;
+package game;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 import javax.swing.ImageIcon;
+
+import game.frame.GameFrameSolo;
 
 public class Player {
 	
@@ -20,7 +22,7 @@ public class Player {
     
     
     ArrayList<Rectangle> endGameArea = GameFrameSolo.getEndGameAreaList();
-    boolean[] Arrive = new boolean[endGameArea.size()];
+    private boolean[] Arrive = new boolean[endGameArea.size()];
     
     public Player(int x, int y){
         this.x = x;
@@ -44,8 +46,8 @@ public class Player {
 	}
     
     public void initArrive() {
-    	for (int i=0; i<Arrive.length; i++)
-            Arrive[i] = false;
+    	for (int i=0; i<getArrive().length; i++)
+            getArrive()[i] = false;
     }
     
     public Image getPlayerImg(){
@@ -64,7 +66,7 @@ public class Player {
             y += -55;
             if(y<yMin) {
             	yMin = y;
-            	GameFrameSolo.score += 10;
+            	GameFrameSolo.setScore(GameFrameSolo.getScore() + 10);
             }
         } else if(key == KeyEvent.VK_S){
             y += +55;
@@ -79,7 +81,7 @@ public class Player {
         		GOD_MODE = true;
         	}
         } else if (key == KeyEvent.VK_V) {
-        	GameFrameSolo.life++;
+        	GameFrameSolo.setLife(GameFrameSolo.getLife() + 1);
         }
     }
 
@@ -100,16 +102,16 @@ public class Player {
     
     public void checkEndedLevel() {
     	int cpt = 0;
-    	for (int i=0; i<Arrive.length; i++) {
-    		if(Arrive[i]) {
+    	for (int i=0; i<getArrive().length; i++) {
+    		if(getArrive()[i]) {
     			cpt++;
     		}
     	}
     	
-    	if(cpt==Arrive.length) {
+    	if(cpt==getArrive().length) {
     		initArrive();
     		//send score to server
-    		GameFrameSolo.gameLevel++;
+    		GameFrameSolo.setGameLevel(GameFrameSolo.getGameLevel() + 1);
     	}
     }
     
@@ -119,24 +121,24 @@ public class Player {
 		for(int i = 0; i < endGameArea.size(); i++) {
 			if(getBounds().intersects(endGameArea.get(i).getBounds())){
 			intersect = true;
-			if(!Arrive[i]) {	
-				Arrive[i] = true;
-				GameFrameSolo.score +=50;
-				GameFrameSolo.nbArrive +=1;
+			if(!getArrive()[i]) {	
+				getArrive()[i] = true;
+				GameFrameSolo.setScore(GameFrameSolo.getScore()+50);
+				GameFrameSolo.setNbArrive(GameFrameSolo.getNbArrive() + 1);
 				x = 270;
 				y = 760;
 			}
 			else {
 				x = 270;
 				y = 760;
-				GameFrameSolo.life -= 1;
+				GameFrameSolo.setLife(GameFrameSolo.getLife() - 1);
 			}
 			}
 		}
 		if (!intersect&&y==100){
 			x = 270;
 			y = 760;
-			GameFrameSolo.life -= 1;
+			GameFrameSolo.setLife(GameFrameSolo.getLife() - 1);
 		}
 		                
 	}
@@ -151,7 +153,7 @@ public class Player {
     
     private boolean checkIsOnEntity() {
     	boolean res = false;
-    	BiblioEntity  tempBiblioFloat = GameFrameSolo.biblioEntity;
+    	BiblioEntity  tempBiblioFloat = GameFrameSolo.getBiblioEntity();
     	String key ="";
     	Set<String> keys = tempBiblioFloat.keySet();
     	Iterator<String> itr = keys.iterator();
@@ -189,17 +191,17 @@ public class Player {
     		if(checkIsOnEntity()) {
     			if ((y >= 150 && y < 205)) { //firstLine
     				if((timerCpt%3 == 0) || (timerCpt%3 == 1))
-    	        		x += GameFrameSolo.level;
+    	        		x += GameFrameSolo.getLevel();
     			} else if((y >= 205 && y < 260)) { //secondLine
-    				x -= GameFrameSolo.level;
+    				x -= GameFrameSolo.getLevel();
     			} else if((y >= 260 && y < 315)) { //thirdLine
-    				x += GameFrameSolo.level;
+    				x += GameFrameSolo.getLevel();
     			} else if((y >= 315 && y < 370)) { //fourthLine
     				if(timerCpt%2 == 0)
-    	        		x += GameFrameSolo.level;
+    	        		x += GameFrameSolo.getLevel();
     			} else if((y >= 370 && y < 425)) { //fifthLine
     				if((timerCpt%3 == 0) || (timerCpt%3 == 1))
-                		x -= GameFrameSolo.level;
+                		x -= GameFrameSolo.getLevel();
     			}
     		}
     	}
@@ -212,7 +214,7 @@ public class Player {
     }
     
     private void checkLife(){
-        if (GameFrameSolo.life == 0) {
+        if (GameFrameSolo.getLife() == 0) {
             System.exit(0);
         }
     }
@@ -221,8 +223,8 @@ public class Player {
     	if(!GOD_MODE) {
     		x = 270;
     		y = 760;
-    		GameFrameSolo.life -= 1;
-    		GameFrameSolo.sec = 30;
+    		GameFrameSolo.setLife(GameFrameSolo.getLife() - 1);
+    		GameFrameSolo.setSec(30);
     	}
     }
     
@@ -230,7 +232,7 @@ public class Player {
     	if(!GOD_MODE) {
 	    	x = 270;
 	    	y = 760;
-	    	GameFrameSolo.sec = 30;
+	    	GameFrameSolo.setSec(30);
     	}
     }
     
@@ -238,4 +240,12 @@ public class Player {
         return new Rectangle(x, y, getPlayerImg().getWidth(null),
                 getPlayerImg().getHeight(null));
     }
+
+	public boolean[] getArrive() {
+		return Arrive;
+	}
+
+	public void setArrive(boolean[] arrive) {
+		Arrive = arrive;
+	}
 }

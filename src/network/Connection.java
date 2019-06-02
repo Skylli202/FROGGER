@@ -4,14 +4,14 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 
 import javax.swing.JTextArea;
 
-import game.solo.BiblioEntity;
-import game.solo.Packet;
+import game.Packet;
 
 public class Connection extends Thread {
 	private Socket socket;
@@ -44,6 +44,8 @@ public class Connection extends Thread {
     	try {
     		buffRead = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     		printWriter = new PrintWriter(new  BufferedWriter(new  OutputStreamWriter(socket.getOutputStream ())),true);
+    		ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+    		ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
     		
     		while(running) {
     			if(!connected) {
@@ -56,15 +58,20 @@ public class Connection extends Thread {
     			}
 //    			System.out.println("hello");
     			
-    			ObjectInputStream trial = new ObjectInputStream(socket.getInputStream());
-    			Packet packetReceive = (Packet) trial.readObject();
+    			Packet packetReceive = (Packet) ois.readObject();
     			System.out.println("packetReceive : "+ packetReceive);
     			
     			// Display data onto ServerFrame
     			tabJTextArea[1].append(packetReceive.printScore());
     			tabJTextArea[2].append("Data Received.\n");
     			
+    			oos.writeObject(packetReceive.getBiblio());
     		}
+    		
+    		buffRead.close();
+    		printWriter.close();
+    		ois.close();
+    		oos.close();
     		socket.close();
     	} catch(Exception e) {
     		
