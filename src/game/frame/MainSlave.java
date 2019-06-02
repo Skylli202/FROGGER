@@ -9,7 +9,7 @@ import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public class MainSolo {
+public class MainSlave {
 	
 	public static final int WIDTH = 600;
 	public static final int HEIGHT = 890;
@@ -18,7 +18,7 @@ public class MainSolo {
 	
 	private JFrame frame;
 	
-	public MainSolo(String username, String ipaddress, String port) {
+	public MainSlave(String username, String ipaddress, String port) {
 		WindowListener exitListener = new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 int confirm = JOptionPane.showOptionDialog(frame,
@@ -31,10 +31,10 @@ public class MainSolo {
             }
         };
 		
-		frame = new JFrame("FROGGER GAME - MASTER");
+		frame = new JFrame("FROGGER GAME - SLAVE");
 		frame.setResizable(false);
 		frame.setSize(WIDTH, HEIGHT);
-		frame.add(new GameFrameSolo(username, ipaddress, port));
+		frame.add(new GameFrameSlave(username, ipaddress, port));
 		frame.addWindowListener(exitListener);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocation((int)(screenSize.getWidth()/2)-(frame.getWidth()/2), ((int) (screenSize.getHeight()/2)-(frame.getHeight()/2)));

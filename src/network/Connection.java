@@ -1,110 +1,86 @@
 package network;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStreamReader;
+import java.io.EOFException;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
-import javax.swing.JTextArea;
-
+import Server.ServFrogger;
 import game.Packet;
+import game.PacketMaster;
+import game.PacketSlave;
 
 public class Connection extends Thread {
 	private Socket socket;
-	private JTextArea tabJTextArea[];
-	private BufferedReader buffRead;
-    private PrintWriter printWriter;
-    private boolean running;
-    private boolean connected = false;
-    private String dataRead;
-    private ScoreManager scoreManager;
-    String username = "";
-    String score = "";
-    
-    
-//    public Connection(Socket socket, JTextArea textArea) {
-//    	this.socket = socket;
-//    	this.textArea = textArea;
-//    	running = true;
-//    	scoreManager = new ScoreManager();
-//    }
-    
-    public Connection(Socket socket, JTextArea tab[]) {
-    	this.socket = socket;
-    	this.tabJTextArea = tab;
-    	running = true;
-    	scoreManager = new ScoreManager();
-    }
-    
-    public void run() {
-    	try {
-    		buffRead = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-    		printWriter = new PrintWriter(new  BufferedWriter(new  OutputStreamWriter(socket.getOutputStream ())),true);
-    		ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-    		ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-    		
-    		while(running) {
-    			if(!connected) {
-    				dataRead = buffRead.readLine();
-    				// Answer Pong to Ping
-    				if(dataRead.equalsIgnoreCase("Ping")) {
-    					printClient("Pong");
-    					connected = true;
-    				}
-    			}
-//    			System.out.println("hello");
-    			
-    			Packet packetReceive = (Packet) ois.readObject();
-    			System.out.println("packetReceive : "+ packetReceive);
-    			
-    			// Display data onto ServerFrame
-    			tabJTextArea[1].append(packetReceive.printScore());
-    			tabJTextArea[2].append("Data Received.\n");
-    			
-    			oos.writeObject(packetReceive.getBiblio());
-    		}
-    		
-    		buffRead.close();
-    		printWriter.close();
-    		ois.close();
-    		oos.close();
-    		socket.close();
-    	} catch(Exception e) {
-    		
-    	}
-    }
-    
-    public int readUserData(String s) {
-    	int j = -1;
-    	for(int i=0; i<s.length(); i++) {
-    		if(s.charAt(i)=='-') {
-    			j = i;
-    		}
-    	}
-    	return j;
-    }
-    
-    public String getUsername(String s, int indice) {
-    	String res = "";
-    	for(int i=0; i<indice; i++) {
-    		res = res + s.charAt(i);
-    	}
-    	return res;
-    }
-    
-    public String getUserScore(String s, int indice) {
-    	String res = "";
-    	for(int i=indice+1; i<s.length(); i++) {
-    		res = res + s.charAt(i);
-    	}
-    	return res;
-    }
-    
-    public void printClient(String s){
-        printWriter.println(s);
-    }
+	private String ip;
+	private int port;
+	
+	private ServFrogger srv;
+
+	private ObjectInputStream ois;
+	private ObjectOutputStream oos;
+
+	private boolean running;
+	
+	public Connection(Socket socket, ServFrogger srv) {
+		this.socket = socket;
+		this.srv = srv;
+		running = true;
+	}
+
+	public void run() {
+		checkSocket();
+		
+		ois = null;
+		oos = null;
+		try {
+			ois = new ObjectInputStream(socket.getInputStream());
+			oos = new ObjectOutputStream(socket.getOutputStream());
+			
+			while(running) {
+				try {
+					Object objectReceived = ois.readObject();
+					RenderToUI((Packet)objectReceived);
+					
+					if(objectReceived instanceof PacketMaster) {
+						srv.setBiblio(((PacketMaster) objectReceived).getBiblio());
+						srv.writeInLogsTab("Biblio updated \n");
+					}
+					
+					if(objectReceived instanceof PacketSlave) {
+						oos.writeObject(srv.getBiblio());
+						oos.flush();
+					}
+										
+					// Listener
+//					System.out.println("objectReceived = " + objectReceived.toString());
+				} catch (EOFException e) {
+					running = false;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {if(ois != null) ois.close();} catch (IOException e) {e.printStackTrace();}
+			try {if(oos != null) oos.close();} catch (IOException e) {e.printStackTrace();}
+			try {if(socket != null) socket.close();} catch (IOException e) {e.printStackTrace();}
+		}
+	}
+
+	private void RenderToUI(Packet packetReceived) {
+		srv.writeInScoreTab(packetReceived.printScore());
+		srv.writeInLogsTab("Data Received\n");
+	}
+
+	private void checkSocket() {
+		if(this.socket == null) {
+			try {
+				this.socket = new Socket(this.ip, this.port);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

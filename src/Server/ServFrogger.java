@@ -3,6 +3,7 @@ package Server;
 import java.awt.BorderLayout;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -12,9 +13,12 @@ import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultCaret;
 
+import game.BiblioEntity;
 import network.Connection;
 
 public class ServFrogger extends JFrame {
+	private static final long serialVersionUID = 1L;
+	
 	// GUI declaration
 	private JPanel contentPane;
 	private JTabbedPane tabbedPane;
@@ -25,14 +29,17 @@ public class ServFrogger extends JFrame {
 	private JScrollPane scoreScrollPane;
 	private JScrollPane logScrollPane;
 	private JTextArea connexionTextArea;
-	public JTextArea scoreTextArea;
-	public JTextArea logTextArea;
+	private JTextArea scoreTextArea;
+	private JTextArea logTextArea;
 
 	// Network declaration
 	private static final int port = 8542;
 	private static ServerSocket serverSocket;
 	private static Socket socket;
-
+	
+	//
+	private BiblioEntity biblio;
+	private ArrayList<JTextArea> list = new ArrayList<JTextArea>();
 
 
 	/**
@@ -69,6 +76,7 @@ public class ServFrogger extends JFrame {
 		connexionPanel.add(connexionScrollPane);
 
 		connexionTextArea = new JTextArea();
+		list.add(connexionTextArea);
 		connexionTextArea.setLineWrap(true);
 		connexionTextArea.setEditable(false);
 		DefaultCaret connexionCaret = (DefaultCaret)connexionTextArea.getCaret();
@@ -86,6 +94,7 @@ public class ServFrogger extends JFrame {
 		scorePanel.add(scoreScrollPane);
 		
 		scoreTextArea = new JTextArea();
+		list.add(scoreTextArea);
 		scoreTextArea.setLineWrap(true);
 		scoreTextArea.setEditable(false);
 		DefaultCaret scoreCaret = (DefaultCaret)scoreTextArea.getCaret();
@@ -103,6 +112,7 @@ public class ServFrogger extends JFrame {
 		logPanel.add(logScrollPane);
 		
 		logTextArea = new JTextArea();
+		list.add(logTextArea);
 		logTextArea.setLineWrap(true);
 		logTextArea.setEditable(false);
 		DefaultCaret logCaret = (DefaultCaret)logTextArea.getCaret();
@@ -129,7 +139,7 @@ public class ServFrogger extends JFrame {
 				if(socket != null){
 					connexionTextArea.append("[INFO] nouvelle connexion : \n"+socket+"\n");
 					System.out.println("[INFO] nouvelle connexion : \n"+socket+"\n");
-					Connection connect = new Connection(socket, tabJTextArea);
+					Connection connect = new Connection(socket, this);
 					connect.start();
 				}
 			}
@@ -137,6 +147,24 @@ public class ServFrogger extends JFrame {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+	}
+	
+	public void writeInScoreTab(String str) {
+		scoreTextArea.append(str);
+	}
+	
+	public void writeInLogsTab(String str) {
+		logTextArea.append(str);
+	}
+	
+	public void setBiblio(BiblioEntity b) {
+		this.biblio = b;
+	}
+	
+	public BiblioEntity getBiblio() { return this.biblio; }
+	
+	public ArrayList<JTextArea> getJTextAreaArray() {
+		return list;
 	}
 	
 	public void spamTextArea(JTextArea textArea[]) {

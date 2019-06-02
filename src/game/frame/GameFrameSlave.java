@@ -18,13 +18,11 @@ import game.KeyAdapt;
 import game.Player;
 import network.Client;
 
-public class GameFrameSolo extends GameFrame implements ActionListener {
+public class GameFrameSlave extends GameFrame implements ActionListener {
 
 	private static final long serialVersionUID = 4L;
-	
-	
 
-	public GameFrameSolo(String username, String ipaddress, String port) {
+	public GameFrameSlave(String username, String ipaddress, String port) {
 		this.username = username;
 		
 		try {
@@ -58,7 +56,7 @@ public class GameFrameSolo extends GameFrame implements ActionListener {
 		drawTimerBar(g2d);
 		drawPlayer(g2d);
 	}
-
+	
 	// Draw things
 	public void drawBackground(Graphics2D g2d) {
 		g2d.drawImage(background.getImage(), 0, 0, null);
@@ -175,5 +173,4 @@ public class GameFrameSolo extends GameFrame implements ActionListener {
 	public static ArrayList<Rectangle> getEndGameAreaList() {
 		return endGameArea;
 	}
-
 }

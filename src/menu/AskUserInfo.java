@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import game.frame.MainSlave;
 import game.frame.MainSolo;
 
 public class AskUserInfo implements ActionListener{
@@ -80,7 +81,7 @@ public class AskUserInfo implements ActionListener{
 			if(isSolo) {
 				new MainSolo(username, ipaddress, port);
 			} else {
-				// new MainSlave(username, ipaddress, port);
+				new MainSlave(username, ipaddress, port);
 			}
 			frame.dispose();
 		}
