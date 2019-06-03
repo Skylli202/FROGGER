@@ -32,12 +32,21 @@ public class GameFrameSlave extends GameFrame implements ActionListener {
 		}
 		client = new Client(socket, this);
 		client.start();
+		
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		setFocusable(true);
 		initHitBox();
-		getBiblioEntity().initFloatable();
-		getBiblioEntity().initCar();
-		getBiblioEntity().initSnake();
+		initFromNetwork();
+		
+//		getBiblioEntity().initFloatable();
+//		getBiblioEntity().initCar();
+//		getBiblioEntity().initSnake();
 		initTimer();
 		initPlayer();
 	}
@@ -109,11 +118,16 @@ public class GameFrameSlave extends GameFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		updateTimer();
 		player.update();
-		getBiblioEntity().update();
+		//getBiblioEntity().update();
+		updateBiblioFromNetwork();
 		
 		repaint();
 		if (System.getProperty("os.name").equals("Linux"))
 			Toolkit.getDefaultToolkit().sync();
+	}
+	
+	public void updateBiblioFromNetwork() {
+		GameFrameSlave.biblioEntity = client.getTmpBiblio();
 	}
 
 	public void updateTimer() {
@@ -138,6 +152,10 @@ public class GameFrameSlave extends GameFrame implements ActionListener {
 	private void initPlayer() {
 		player = new Player(270, 760);
 		addKeyListener(new KeyAdapt(player));
+	}
+	
+	public void initFromNetwork() {
+		GameFrameSlave.biblioEntity = client.getTmpBiblio();
 	}
 
 	public void initHitBox() {

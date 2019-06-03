@@ -23,6 +23,7 @@ public class Client extends Thread{
 	private ObjectOutputStream oos;
 
 	private GameFrame gameFrame;
+	private BiblioEntity tmpBiblio;
 	
 	public boolean running = true;
 
@@ -86,4 +87,12 @@ public class Client extends Thread{
 			}
 		}
 	}
+	
+	public BiblioEntity getTmpBiblio() {
+		return tmpBiblio;
+	}
+
+//	public void setTmpBiblio(BiblioEntity tmpBiblio) {
+//		this.tmpBiblio = tmpBiblio;
+//	}
 }
