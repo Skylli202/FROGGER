@@ -32,21 +32,13 @@ public class GameFrameSlave extends GameFrame implements ActionListener {
 		}
 		client = new Client(socket, this);
 		client.start();
-		
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		setFocusable(true);
 		initHitBox();
-		initFromNetwork();
-		
-//		getBiblioEntity().initFloatable();
-//		getBiblioEntity().initCar();
-//		getBiblioEntity().initSnake();
+//		initFromNetwork();
+		getBiblioEntity().initFloatable();
+		getBiblioEntity().initCar();
+		getBiblioEntity().initSnake();
 		initTimer();
 		initPlayer();
 	}
@@ -61,9 +53,14 @@ public class GameFrameSlave extends GameFrame implements ActionListener {
 		hitBoxDraw(g2d, false);
 		writeInfos(g2d);
 		drawEndGameAreaFilled(g2d);
-		getBiblioEntity().draw(g2d);
 		drawTimerBar(g2d);
-		drawPlayer(g2d);
+		
+		// Program cannot work properly due to orignal design where GameFrameMaster was GameFrameSolo and one and only one class.
+		// Player and entity in general use some GameFrameMaster Static properties that should NOT be static but are static...
+		// So even when Player or Entioty instance are created by GameFrameSlave instance there are referencing to GameFrameMaster ...
+		
+//		getBiblioEntity().draw(g2d);
+//		drawPlayer(g2d);
 	}
 	
 	// Draw things

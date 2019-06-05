@@ -101,7 +101,7 @@ public class Scoreboard {
 	public int size() {
 		int cpt = 0;
 		Set<Object> keys = getAllKeys();
-		for(Object k:keys) {
+		for(@SuppressWarnings("unused") Object k:keys) {
 			cpt++;
 		}
 		return cpt;

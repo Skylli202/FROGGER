@@ -12,7 +12,7 @@ import game.PacketMaster;
 import game.PacketSlave;
 import game.frame.GameFrame;
 import game.frame.GameFrameSlave;
-import game.frame.GameFrameSolo;
+import game.frame.GameFrameMaster;
 
 public class Client extends Thread{
 	private Socket socket;
@@ -50,9 +50,9 @@ public class Client extends Thread{
 			
 			while(running) {
 				try {
-					Thread.sleep(1000);
-					if(gameFrame instanceof GameFrameSolo) {
-						Packet packetToSend = new PacketMaster(gameFrame.getUsername(), GameFrame.getScore(), GameFrameSolo.getBiblioEntity());
+					Thread.sleep(100);
+					if(gameFrame instanceof GameFrameMaster) {
+						Packet packetToSend = new PacketMaster(gameFrame.getUsername(), GameFrame.getScore(), GameFrameMaster.getBiblioEntity());
 						oos.writeObject(packetToSend);
 						oos.flush();
 					} else if (gameFrame instanceof GameFrameSlave) {

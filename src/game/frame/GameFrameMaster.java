@@ -18,13 +18,11 @@ import game.KeyAdapt;
 import game.Player;
 import network.Client;
 
-public class GameFrameSolo extends GameFrame implements ActionListener {
+public class GameFrameMaster extends GameFrame implements ActionListener {
 
 	private static final long serialVersionUID = 4L;
 	
-	
-
-	public GameFrameSolo(String username, String ipaddress, String port) {
+	public GameFrameMaster(String username, String ipaddress, String port) {
 		this.username = username;
 		
 		try {

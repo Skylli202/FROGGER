@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.Set;
 import javax.swing.ImageIcon;
 
-import game.frame.GameFrameSolo;
+import game.frame.GameFrameMaster;
 
 public class Player {
 	
@@ -21,7 +21,7 @@ public class Player {
     int yMin;
     
     
-    ArrayList<Rectangle> endGameArea = GameFrameSolo.getEndGameAreaList();
+    ArrayList<Rectangle> endGameArea = GameFrameMaster.getEndGameAreaList();
     private boolean[] Arrive = new boolean[endGameArea.size()];
     
     public Player(int x, int y){
@@ -51,7 +51,7 @@ public class Player {
     }
     
     public Image getPlayerImg(){
-        ImageIcon ic = new ImageIcon("./res/frog.png");
+        ImageIcon ic = new ImageIcon(getClass().getResource("/frog.png"));
         return ic.getImage();
     }
     
@@ -66,7 +66,7 @@ public class Player {
             y += -55;
             if(y<yMin) {
             	yMin = y;
-            	GameFrameSolo.setScore(GameFrameSolo.getScore() + 10);
+            	GameFrameMaster.setScore(GameFrameMaster.getScore() + 10);
             }
         } else if(key == KeyEvent.VK_S){
             y += +55;
@@ -81,7 +81,7 @@ public class Player {
         		GOD_MODE = true;
         	}
         } else if (key == KeyEvent.VK_V) {
-        	GameFrameSolo.setLife(GameFrameSolo.getLife() + 1);
+        	GameFrameMaster.setLife(GameFrameMaster.getLife() + 1);
         }
     }
 
@@ -111,7 +111,7 @@ public class Player {
     	if(cpt==getArrive().length) {
     		initArrive();
     		//send score to server
-    		GameFrameSolo.setGameLevel(GameFrameSolo.getGameLevel() + 1);
+    		GameFrameMaster.setGameLevel(GameFrameMaster.getGameLevel() + 1);
     	}
     }
     
@@ -123,22 +123,22 @@ public class Player {
 			intersect = true;
 			if(!getArrive()[i]) {	
 				getArrive()[i] = true;
-				GameFrameSolo.setScore(GameFrameSolo.getScore()+50);
-				GameFrameSolo.setNbArrive(GameFrameSolo.getNbArrive() + 1);
+				GameFrameMaster.setScore(GameFrameMaster.getScore()+50);
+				GameFrameMaster.setNbArrive(GameFrameMaster.getNbArrive() + 1);
 				x = 270;
 				y = 760;
 			}
 			else {
 				x = 270;
 				y = 760;
-				GameFrameSolo.setLife(GameFrameSolo.getLife() - 1);
+				GameFrameMaster.setLife(GameFrameMaster.getLife() - 1);
 			}
 			}
 		}
 		if (!intersect&&y==100){
 			x = 270;
 			y = 760;
-			GameFrameSolo.setLife(GameFrameSolo.getLife() - 1);
+			GameFrameMaster.setLife(GameFrameMaster.getLife() - 1);
 		}
 		                
 	}
@@ -153,7 +153,7 @@ public class Player {
     
     private boolean checkIsOnEntity() {
     	boolean res = false;
-    	BiblioEntity  tempBiblioFloat = GameFrameSolo.getBiblioEntity();
+    	BiblioEntity  tempBiblioFloat = GameFrameMaster.getBiblioEntity();
     	String key ="";
     	Set<String> keys = tempBiblioFloat.keySet();
     	Iterator<String> itr = keys.iterator();
@@ -191,17 +191,17 @@ public class Player {
     		if(checkIsOnEntity()) {
     			if ((y >= 150 && y < 205)) { //firstLine
     				if((timerCpt%3 == 0) || (timerCpt%3 == 1))
-    	        		x += GameFrameSolo.getLevel();
+    	        		x += GameFrameMaster.getLevel();
     			} else if((y >= 205 && y < 260)) { //secondLine
-    				x -= GameFrameSolo.getLevel();
+    				x -= GameFrameMaster.getLevel();
     			} else if((y >= 260 && y < 315)) { //thirdLine
-    				x += GameFrameSolo.getLevel();
+    				x += GameFrameMaster.getLevel();
     			} else if((y >= 315 && y < 370)) { //fourthLine
     				if(timerCpt%2 == 0)
-    	        		x += GameFrameSolo.getLevel();
+    	        		x += GameFrameMaster.getLevel();
     			} else if((y >= 370 && y < 425)) { //fifthLine
     				if((timerCpt%3 == 0) || (timerCpt%3 == 1))
-                		x -= GameFrameSolo.getLevel();
+                		x -= GameFrameMaster.getLevel();
     			}
     		}
     	}
@@ -214,7 +214,7 @@ public class Player {
     }
     
     private void checkLife(){
-        if (GameFrameSolo.getLife() == 0) {
+        if (GameFrameMaster.getLife() == 0) {
             System.exit(0);
         }
     }
@@ -223,8 +223,8 @@ public class Player {
     	if(!GOD_MODE) {
     		x = 270;
     		y = 760;
-    		GameFrameSolo.setLife(GameFrameSolo.getLife() - 1);
-    		GameFrameSolo.setSec(30);
+    		GameFrameMaster.setLife(GameFrameMaster.getLife() - 1);
+    		GameFrameMaster.setSec(30);
     	}
     }
     
@@ -232,7 +232,7 @@ public class Player {
     	if(!GOD_MODE) {
 	    	x = 270;
 	    	y = 760;
-	    	GameFrameSolo.setSec(30);
+	    	GameFrameMaster.setSec(30);
     	}
     }
     

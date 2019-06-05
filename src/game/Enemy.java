@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
-import game.frame.GameFrameSolo;
+import game.frame.GameFrameMaster;
 
 public class Enemy extends Entity {
 	private static final long serialVersionUID = 1L;
@@ -37,7 +37,7 @@ public class Enemy extends Entity {
 			x += 1;
 		} else {
 			if((timer%3 == 0) || (timer%3 == 1))
-        		x += GameFrameSolo.getLevel();
+        		x += GameFrameMaster.getLevel();
 		}
 	}
 	
@@ -47,7 +47,7 @@ public class Enemy extends Entity {
 		
 		if(timerCpt++/i == 1) {
 			timerCpt -= i;
-			GameFrameSolo.getBiblioEntity().initSnake();
+			GameFrameMaster.getBiblioEntity().initSnake();
 		}
 	}
 	
@@ -58,7 +58,7 @@ public class Enemy extends Entity {
 	private void checkIfNotOut() {
 		ArrayList<Entity> tempList;
 		if(isSnake) {
-			tempList = GameFrameSolo.getBiblioEntity().get("Snake");
+			tempList = GameFrameMaster.getBiblioEntity().get("Snake");
 //			System.out.println(tempList.size());
 			if(tempList.size()>1) {
 				for(int i=0; i<tempList.size(); i++) {
@@ -72,9 +72,9 @@ public class Enemy extends Entity {
 
 	public Image getSnakeImg() {
 		if(isSnake) {
-			return new ImageIcon("./res/snake.png").getImage();
+			return new ImageIcon(getClass().getResource("/snake.png")).getImage();
 		} else {
-			return new ImageIcon("./res/crocodile.png").getImage();
+			return new ImageIcon(getClass().getResource("/crocodile.png")).getImage();
 		}
 	}
 	

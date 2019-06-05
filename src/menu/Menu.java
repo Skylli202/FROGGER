@@ -8,12 +8,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Properties;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -39,13 +35,15 @@ public class Menu implements ActionListener {
 		
 		BufferedImage img = null;
 		try {
-		    img = ImageIO.read(new File("./res/Menu.png"));
+//		    img = ImageIO.read(new File("res/Menu.png"));
+			String imgPath = "/Menu.png";
+			img = ImageIO.read(this.getClass().getResourceAsStream(imgPath));
+
 		} catch (IOException e) {
 		    e.printStackTrace();
 		}
 		
-		Image dimg = img.getScaledInstance(background.getWidth(), background.getHeight(),
-		        Image.SCALE_SMOOTH);
+		Image dimg = img.getScaledInstance(background.getWidth(), background.getHeight(), Image.SCALE_SMOOTH);
 		
 		ImageIcon imageIcon = new ImageIcon(dimg);
 		
@@ -72,63 +70,38 @@ public class Menu implements ActionListener {
 	}
 	
 	public static void main(String[] args) {
-		Properties prop = new Properties();
-		InputStream input = null;
-		
 		ArrayList<String> menuList = new ArrayList<String>();
 
-		try {
-			input = new FileInputStream("./config/config.properties");
-			
-			prop.load(input);
-			
-			menuList.add(prop.getProperty("menuone"));
-			menuList.add(prop.getProperty("menutwo"));
-			menuList.add(prop.getProperty("menuthree"));
-			menuList.add(prop.getProperty("menufour"));
-
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		} finally {
-			if (input != null) {
-				try {
-					input.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		if(menuList.isEmpty()) {
-			menuList.add("item1");
-			menuList.add("item2");
-			menuList.add("item3");
-			menuList.add("item4");
-		}
+		menuList.add("Jeu Maitre");
+		menuList.add("Jeu Slave");
+		menuList.add("Scoreboard");
+		menuList.add("Quitter");
 		
 		new Menu(menuList);
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if("Jeu Solo".equals(e.getActionCommand())) {
-			System.out.println("Solo Mode Selectionned");
+		if("Jeu Maitre".equals(e.getActionCommand())) {
+			System.out.println("Jeu Maitre selectionner");
 			new AskUserInfo(this, true);
 			this.hide();
 		}
 		
-		if("Jeu Coop".equals(e.getActionCommand())) {
-			System.out.println("Coop Mode Selectionned");
+		if("Jeu Slave".equals(e.getActionCommand())) {
+			System.out.println("Jeu Esclave selectionner");
 			new AskUserInfo(this, false);
 			this.hide();
 		}
 		
 		if("Scoreboard".equals(e.getActionCommand())) {
-			new AskScoreboard();
+//			new AskScoreboard();
+			System.out.println("Scoreboard is no longer supported in ESIREM Version of E.G. Frogger Game");
 			this.hide();
 		}
 		
 		if("Quitter".equals(e.getActionCommand())) {
-			System.out.println("quitter");
+//			System.out.println("quitter");
+			System.exit(0);
 		}
 	}
 	

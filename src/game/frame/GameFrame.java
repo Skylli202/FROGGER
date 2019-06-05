@@ -19,7 +19,9 @@ public class GameFrame extends JPanel {
 	protected Socket socket;
 	protected static Timer mainTimer;
 	protected static Player player;
-	protected ImageIcon background = new ImageIcon("./res/backgroundResized2.png");
+	
+//	protected ImageIcon background = new ImageIcon("./res/backgroundResized2.png");
+	protected ImageIcon background = new ImageIcon(getClass().getResource("/backgroundResized2.png"));
 
 	protected static int life = 3;
 	protected static int score = 0;
@@ -43,7 +45,7 @@ public class GameFrame extends JPanel {
 	}
 
 	public static void setLife(int life) {
-		GameFrameSolo.life = life;
+		GameFrameMaster.life = life;
 	}
 
 	public static int getSec() {
@@ -51,15 +53,15 @@ public class GameFrame extends JPanel {
 	}
 
 	public static void setSec(int sec) {
-		GameFrameSolo.sec = sec;
+		GameFrameMaster.sec = sec;
 	}
 	
 	public static int getScore() {
-		return GameFrameSolo.score;
+		return GameFrameMaster.score;
 	}
 	
 	public static void setScore(int score) {
-		GameFrameSolo.score = score;
+		GameFrameMaster.score = score;
 	}
 
 	public static int getLevel() {
@@ -67,7 +69,7 @@ public class GameFrame extends JPanel {
 	}
 
 	public static void setLevel(int level) {
-		GameFrameSolo.level = level;
+		GameFrameMaster.level = level;
 	}
 
 	public static BiblioEntity getBiblioEntity() {
@@ -75,7 +77,7 @@ public class GameFrame extends JPanel {
 	}
 
 	public void setBiblioEntity(BiblioEntity biblioEntity) {
-		GameFrameSolo.biblioEntity = biblioEntity;
+		GameFrameMaster.biblioEntity = biblioEntity;
 	}
 
 	public static int getNbArrive() {
@@ -83,7 +85,7 @@ public class GameFrame extends JPanel {
 	}
 
 	public static void setNbArrive(int nbArrive) {
-		GameFrameSolo.nbArrive = nbArrive;
+		GameFrameMaster.nbArrive = nbArrive;
 	}
 
 	public static int getGameLevel() {
@@ -91,7 +93,7 @@ public class GameFrame extends JPanel {
 	}
 
 	public static void setGameLevel(int gameLevel) {
-		GameFrameSolo.gameLevel = gameLevel;
+		GameFrameMaster.gameLevel = gameLevel;
 	}
 
 	public static int getIntervalWoodCroco() {
@@ -99,7 +101,7 @@ public class GameFrame extends JPanel {
 	}
 
 	public static void setIntervalWoodCroco(int intervalWoodCroco) {
-		GameFrameSolo.intervalWoodCroco = intervalWoodCroco;
+		GameFrameMaster.intervalWoodCroco = intervalWoodCroco;
 	}
 	
 	public String getUsername() {
