@@ -36,11 +36,11 @@ public class GameFrameSlave extends GameFrame implements ActionListener {
 		setFocusable(true);
 		initHitBox();
 //		initFromNetwork();
-		getBiblioEntity().initFloatable();
-		getBiblioEntity().initCar();
-		getBiblioEntity().initSnake();
+		//getBiblioEntity().initFloatable();
+		//getBiblioEntity().initCar();
+		//getBiblioEntity().initSnake();
 		initTimer();
-		initPlayer();
+		//sinitPlayer();
 	}
 
 	public void paint(Graphics g) {

@@ -50,7 +50,7 @@ public class Client extends Thread{
 			
 			while(running) {
 				try {
-					Thread.sleep(100);
+					Thread.sleep(1000);
 					if(gameFrame instanceof GameFrameMaster) {
 						Packet packetToSend = new PacketMaster(gameFrame.getUsername(), GameFrame.getScore(), GameFrameMaster.getBiblioEntity());
 						oos.writeObject(packetToSend);

@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
-import Server.ServFrogger;
 import game.Packet;
 import game.PacketMaster;
 import game.PacketSlave;

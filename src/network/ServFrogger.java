@@ -1,4 +1,4 @@
-package Server;
+package network;
 
 import java.awt.BorderLayout;
 import java.net.ServerSocket;
@@ -14,7 +14,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultCaret;
 
 import game.BiblioEntity;
-import network.Connection;
 
 public class ServFrogger extends JFrame {
 	private static final long serialVersionUID = 1L;
