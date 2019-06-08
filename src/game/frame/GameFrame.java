@@ -1,4 +1,4 @@
-package game.frame;
+	package game.frame;
 
 import java.awt.Rectangle;
 import java.net.Socket;

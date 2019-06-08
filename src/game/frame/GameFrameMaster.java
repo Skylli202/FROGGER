@@ -21,13 +21,13 @@ import network.Client;
 public class GameFrameMaster extends GameFrame implements ActionListener {
 
 	private static final long serialVersionUID = 4L;
-	
+
 	public GameFrameMaster(String username, String ipaddress, String port) {
 		this.username = username;
-		
+
 		try {
 			socket = new Socket(ipaddress, Integer.parseInt(port));
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		client = new Client(socket, this);
@@ -88,18 +88,18 @@ public class GameFrameMaster extends GameFrame implements ActionListener {
 	}
 
 	public void hitBoxDraw(Graphics2D g2d, boolean shouldDraw) {
-		if(shouldDraw) {
+		if (shouldDraw) {
 			for (int i = 0; i < hitBox.size(); i++) {
 				g2d.draw(hitBox.get(i));
 			}
 			drawEndGameAreaHitBox(g2d);
 		}
 	}
-	
+
 	public void drawEndGameAreaHitBox(Graphics2D g2d) {
 		Color color = g2d.getColor();
 		g2d.setColor(Color.BLUE);
-		for(int i=0; i<endGameArea.size(); i++) {
+		for (int i = 0; i < endGameArea.size(); i++) {
 			g2d.draw(endGameArea.get(i));
 		}
 		g2d.setColor(color);
@@ -110,7 +110,7 @@ public class GameFrameMaster extends GameFrame implements ActionListener {
 		updateTimer();
 		player.update();
 		getBiblioEntity().update();
-		
+
 		repaint();
 		if (System.getProperty("os.name").equals("Linux"))
 			Toolkit.getDefaultToolkit().sync();

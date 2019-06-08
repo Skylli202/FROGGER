@@ -15,6 +15,7 @@ import javax.swing.text.DefaultCaret;
 
 import game.BiblioEntity;
 import network.Connection;
+import javax.swing.JList;
 
 public class ServFrogger extends JFrame {
 	private static final long serialVersionUID = 1L;
