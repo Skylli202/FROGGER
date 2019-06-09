@@ -43,7 +43,7 @@ public class BiblioEntity implements Serializable{
     	return HT.keySet();
     }
     
-	public void putFloatable(String s, Floatable f) {
+	public void put(String s, Floatable f) {
 		if(HT.get(s) == null) {
 			ArrayList<Entity> entityList = new ArrayList<Entity>();
 			entityList.add(f);
@@ -53,7 +53,7 @@ public class BiblioEntity implements Serializable{
 		}
 	}
 	
-	public void putCar(String s, Car c) {
+	public void put(String s, Car c) {
 		if(HT.get(s) == null) {
 			ArrayList<Entity> entityList = new ArrayList<Entity>();
 			entityList.add(c);
@@ -63,7 +63,7 @@ public class BiblioEntity implements Serializable{
 		}
 	}
 	
-	public void putEnemy(String s, Enemy c) {
+	public void put(String s, Enemy c) {
 		if(HT.get(s) == null) {
 			ArrayList<Entity> entityList = new ArrayList<Entity>();
 			entityList.add(c);
@@ -85,20 +85,20 @@ public class BiblioEntity implements Serializable{
     	
 		switch(i) {
     		case 1:
-    			this.putFloatable("firstRow", new Floatable(-130, 150, 1));
+    			this.put("firstRow", new Floatable(-130, 150, 1));
     			break;
     		case 2:
-    			this.putFloatable("secondRow", new Floatable(670, 205, 0, true, 2, false, 0));
+    			this.put("secondRow", new Floatable(670, 205, 0, true, 2, false, 0));
                 break;
     		case 3:
-    			this.putFloatable("thirdRow", new Floatable(-145, 260, 2));
-    			this.putFloatable("thirdRow", new Floatable(-225, 260, 2));
+    			this.put("thirdRow", new Floatable(-145, 260, 2));
+    			this.put("thirdRow", new Floatable(-225, 260, 2));
     			break;
     		case 4:
-    			this.putFloatable("fourthRow", new Floatable(-150, 315, 0));
+    			this.put("fourthRow", new Floatable(-150, 315, 0));
                 break;
     		case 5:
-    			this.putFloatable("fifthRow", new Floatable(670, 370, 3, true, 3, false, 0));
+    			this.put("fifthRow", new Floatable(670, 370, 3, true, 3, false, 0));
     			break;
     			
     	}
@@ -115,30 +115,30 @@ public class BiblioEntity implements Serializable{
 	public void initCar(int i ) {
 		switch(i) {
 			case 1:
-				this.putCar("carOne", new Car(720, 480, 1, false));
+				this.put("carOne", new Car(720, 480, 1, false));
 				//this.putCar("carOne", new Car(840, 480, 1, false));
 				break;
 			case 2:
-				this.putCar("carTwo", new Car(-120, 535, 2, true));
+				this.put("carTwo", new Car(-120, 535, 2, true));
 				break;
 			case 3:
-				this.putCar("carThree", new Car(720, 590, 3, false));
+				this.put("carThree", new Car(720, 590, 3, false));
 				break;
 			case 4:
-				this.putCar("carFour", new Car(-270, 645, 4, true));
+				this.put("carFour", new Car(-270, 645, 4, true));
 				break;
 			case 5:
-				this.putCar("carFive", new Car(720, 700, 5, false));
+				this.put("carFive", new Car(720, 700, 5, false));
 				break;
 		}
 	}
 	
 	public void initSnake() {
-		this.putEnemy("Snake", new Enemy(-130, 430, true));
+		this.put("Snake", new Enemy(-130, 430, true));
 	}
 	
 	public void initCroco() {
-		this.putEnemy("firstRow", new Enemy(-130, 150, false));
+		this.put("firstRow", new Enemy(-130, 150, false));
 	}
 	
 	public void draw(Graphics2D g2d) {
@@ -167,10 +167,6 @@ public class BiblioEntity implements Serializable{
     			}
     		}
     }
-	
-	public void sendBiblio() {
-		System.out.println("This code here should send the biblio entity to the server");
-	}
 	
 	private void readObject(ObjectInputStream aInputStream)
 			throws ClassNotFoundException, IOException {

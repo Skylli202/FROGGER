@@ -5,9 +5,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -18,7 +15,7 @@ import game.KeyAdapt;
 import game.Player;
 import network.Client;
 
-public class GameFrameMaster extends GameFrame implements ActionListener {
+public class GameFrameMaster extends GameFrame {
 
 	private static final long serialVersionUID = 4L;
 	
@@ -103,30 +100,6 @@ public class GameFrameMaster extends GameFrame implements ActionListener {
 			g2d.draw(endGameArea.get(i));
 		}
 		g2d.setColor(color);
-	}
-
-	// Timer stuff
-	public void actionPerformed(ActionEvent e) {
-		updateTimer();
-		player.update();
-		getBiblioEntity().update();
-		
-		repaint();
-		if (System.getProperty("os.name").equals("Linux"))
-			Toolkit.getDefaultToolkit().sync();
-	}
-
-	public void updateTimer() {
-		timerCpt += 10;
-		if (timerCpt / 1000 == 1) {
-			timerCpt -= 1000;
-			setSec(getSec() - 1);
-			if (getSec() == 0) {
-				setLife(getLife() - 1);
-				player.resetPos();
-				setSec(30);
-			}
-		}
 	}
 
 	// init Stuff

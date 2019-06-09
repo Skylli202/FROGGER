@@ -5,9 +5,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -18,7 +15,7 @@ import game.KeyAdapt;
 import game.Player;
 import network.Client;
 
-public class GameFrameSlave extends GameFrame implements ActionListener {
+public class GameFrameSlave extends GameFrame {
 
 	private static final long serialVersionUID = 4L;
 
@@ -36,11 +33,11 @@ public class GameFrameSlave extends GameFrame implements ActionListener {
 		setFocusable(true);
 		initHitBox();
 //		initFromNetwork();
-		//getBiblioEntity().initFloatable();
-		//getBiblioEntity().initCar();
-		//getBiblioEntity().initSnake();
+		getBiblioEntity().initFloatable();
+		getBiblioEntity().initCar();
+		getBiblioEntity().initSnake();
 		initTimer();
-		//sinitPlayer();
+		initPlayer();
 	}
 
 	public void paint(Graphics g) {
@@ -54,13 +51,14 @@ public class GameFrameSlave extends GameFrame implements ActionListener {
 		writeInfos(g2d);
 		drawEndGameAreaFilled(g2d);
 		drawTimerBar(g2d);
+		drawPlayer(g2d);
 		
 		// Program cannot work properly due to orignal design where GameFrameMaster was GameFrameSolo and one and only one class.
 		// Player and entity in general use some GameFrameMaster Static properties that should NOT be static but are static...
 		// So even when Player or Entioty instance are created by GameFrameSlave instance there are referencing to GameFrameMaster ...
 		
-//		getBiblioEntity().draw(g2d);
-//		drawPlayer(g2d);
+		// Comment or Uncomment this line to display or hide local BiblioEntity
+		getBiblioEntity().draw(g2d);
 	}
 	
 	// Draw things
@@ -111,33 +109,8 @@ public class GameFrameSlave extends GameFrame implements ActionListener {
 		g2d.setColor(color);
 	}
 
-	// Timer stuff
-	public void actionPerformed(ActionEvent e) {
-		updateTimer();
-		player.update();
-		//getBiblioEntity().update();
-		updateBiblioFromNetwork();
-		
-		repaint();
-		if (System.getProperty("os.name").equals("Linux"))
-			Toolkit.getDefaultToolkit().sync();
-	}
-	
 	public void updateBiblioFromNetwork() {
 		GameFrameSlave.biblioEntity = client.getTmpBiblio();
-	}
-
-	public void updateTimer() {
-		timerCpt += 10;
-		if (timerCpt / 1000 == 1) {
-			timerCpt -= 1000;
-			setSec(getSec() - 1);
-			if (getSec() == 0) {
-				setLife(getLife() - 1);
-				player.resetPos();
-				setSec(30);
-			}
-		}
 	}
 
 	// init Stuff
@@ -146,6 +119,7 @@ public class GameFrameSlave extends GameFrame implements ActionListener {
 		mainTimer.start();
 	}
 
+	@SuppressWarnings("unused")
 	private void initPlayer() {
 		player = new Player(270, 760);
 		addKeyListener(new KeyAdapt(player));

@@ -1,6 +1,9 @@
 package game.frame;
 
 import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -12,7 +15,7 @@ import game.BiblioEntity;
 import game.Player;
 import network.Client;
 
-public class GameFrame extends JPanel {
+public class GameFrame extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
 	protected Client client;
@@ -110,5 +113,29 @@ public class GameFrame extends JPanel {
 	
 	public BiblioEntity getBiblio() {
 		return getBiblioEntity();
+	}
+	
+	public void updateTimer() {
+		timerCpt += 10;
+		if (timerCpt / 1000 == 1) {
+			timerCpt -= 1000;
+			setSec(getSec() - 1);
+			if (getSec() == 0) {
+				setLife(getLife() - 1);
+				player.resetPos();
+				setSec(30);
+			}
+		}
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		updateTimer();
+		//player.update();
+		getBiblioEntity().update();
+		
+		repaint();
+		if (System.getProperty("os.name").equals("Linux"))
+			Toolkit.getDefaultToolkit().sync();
 	}
 }
