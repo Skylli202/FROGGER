@@ -23,38 +23,38 @@ public class Menu implements ActionListener {
 	private JPanel panel;
 	private JPanel background;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	
+
 	public Menu(ArrayList<String> menuList) {
 		frame = new JFrame("FROGGER GAME MENU");
 		frame.setSize(500, 500);
 		frame.setLayout(new BorderLayout());
-		
+
 		background = new JPanel();
 		background.setLayout(new BorderLayout());
 		background.setSize(new Dimension(420,470));
-		
+
 		BufferedImage img = null;
 		try {
-//		    img = ImageIO.read(new File("res/Menu.png"));
+			//		    img = ImageIO.read(new File("res/Menu.png"));
 			String imgPath = "/Menu.png";
 			img = ImageIO.read(this.getClass().getResourceAsStream(imgPath));
 
 		} catch (IOException e) {
-		    e.printStackTrace();
+			e.printStackTrace();
 		}
-		
+
 		Image dimg = img.getScaledInstance(background.getWidth(), background.getHeight(), Image.SCALE_SMOOTH);
-		
+
 		ImageIcon imageIcon = new ImageIcon(dimg);
-		
+
 		JLabel label = new JLabel();
-		
+
 		label.setIcon(imageIcon);
-		
+
 		background.add(label);
-		
+
 		frame.getContentPane().add(background, java.awt.BorderLayout.CENTER);
-		
+
 		panel = new JPanel();
 		panel.setLayout(new GridLayout(4,1));
 		for(int i=0; i<menuList.size(); i++) {
@@ -68,7 +68,7 @@ public class Menu implements ActionListener {
 		frame.setLocation((int)(screenSize.getWidth()/2)-(frame.getWidth()/2), ((int) (screenSize.getHeight()/2)-(frame.getHeight()/2)));
 		frame.setVisible(true);
 	}
-	
+
 	public static void main(String[] args) {
 		ArrayList<String> menuList = new ArrayList<String>();
 
@@ -76,7 +76,7 @@ public class Menu implements ActionListener {
 		menuList.add("Jeu Slave");
 		menuList.add("Scoreboard");
 		menuList.add("Quitter");
-		
+
 		new Menu(menuList);
 	}
 
@@ -86,29 +86,29 @@ public class Menu implements ActionListener {
 			new AskUserInfo(this, true);
 			this.hide();
 		}
-		
+
 		if("Jeu Slave".equals(e.getActionCommand())) {
 			System.out.println("Jeu Esclave selectionner");
 			new AskUserInfo(this, false);
 			this.hide();
 		}
-		
+
 		if("Scoreboard".equals(e.getActionCommand())) {
-//			new AskScoreboard();
+			//			new AskScoreboard();
 			System.out.println("Scoreboard is no longer supported in ESIREM Version of E.G. Frogger Game");
 			this.hide();
 		}
-		
+
 		if("Quitter".equals(e.getActionCommand())) {
-//			System.out.println("quitter");
+			//			System.out.println("quitter");
 			System.exit(0);
 		}
 	}
-	
+
 	public void show() {
 		frame.setVisible(true);
 	}
-	
+
 	public void hide() {
 		frame.setVisible(false);
 	}
