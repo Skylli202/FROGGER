@@ -5,6 +5,9 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -15,7 +18,7 @@ import game.KeyAdapt;
 import game.Player;
 import network.Client;
 
-public class GameFrameSlave extends GameFrame {
+public class GameFrameSlave extends GameFrame implements ActionListener {
 
 	private static final long serialVersionUID = 4L;
 
@@ -50,8 +53,7 @@ public class GameFrameSlave extends GameFrame {
 		hitBoxDraw(g2d, false);
 		writeInfos(g2d);
 		drawEndGameAreaFilled(g2d);
-		drawTimerBar(g2d);
-		drawPlayer(g2d);
+		
 		
 		// Program cannot work properly due to orignal design where GameFrameMaster was GameFrameSolo and one and only one class.
 		// Player and entity in general use some GameFrameMaster Static properties that should NOT be static but are static...
@@ -59,6 +61,9 @@ public class GameFrameSlave extends GameFrame {
 		
 		// Comment or Uncomment this line to display or hide local BiblioEntity
 		getBiblioEntity().draw(g2d);
+		
+		drawTimerBar(g2d);
+		drawPlayer(g2d);
 	}
 	
 	// Draw things
@@ -117,6 +122,17 @@ public class GameFrameSlave extends GameFrame {
 	private void initTimer() {
 		mainTimer = new Timer(10, this); // Timer is 10 base line - pass to 100 to slow down the spam
 		mainTimer.start();
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		updateTimer();
+		player.update();
+		getBiblioEntity().update();
+		
+		repaint();
+		if (System.getProperty("os.name").equals("Linux"))
+			Toolkit.getDefaultToolkit().sync();
 	}
 
 	@SuppressWarnings("unused")

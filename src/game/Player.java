@@ -25,6 +25,7 @@ public class Player {
     private boolean[] Arrive = new boolean[endGameArea.size()];
     
     public Player(int x, int y){
+    	System.out.println(endGameArea);
         this.x = x;
         this.y = y;
         yMin = y;

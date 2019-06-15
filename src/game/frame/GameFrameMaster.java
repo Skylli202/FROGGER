@@ -5,6 +5,9 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -15,7 +18,7 @@ import game.KeyAdapt;
 import game.Player;
 import network.Client;
 
-public class GameFrameMaster extends GameFrame {
+public class GameFrameMaster extends GameFrame implements ActionListener {
 
 	private static final long serialVersionUID = 4L;
 	
@@ -106,6 +109,17 @@ public class GameFrameMaster extends GameFrame {
 	private void initTimer() {
 		mainTimer = new Timer(10, this); // Timer is 10 base line - pass to 100 to slow down the spam
 		mainTimer.start();
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		updateTimer();
+		player.update();
+		getBiblioEntity().update();
+		
+		repaint();
+		if (System.getProperty("os.name").equals("Linux"))
+			Toolkit.getDefaultToolkit().sync();
 	}
 
 	private void initPlayer() {
