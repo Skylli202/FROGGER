@@ -1,4 +1,4 @@
-Pour avoir des informations détailler sur comment lancer ce programme référez vous à la section How To Use du rapport ci-joint.
+﻿Pour avoir des informations détailler sur comment lancer ce programme référez vous à la section How To Use du rapport ci-joint.
 
 Sinon : 
   - Double clic sur le fichier .jar que vous souhaitez lancer
@@ -8,6 +8,9 @@ Sinon :
 		-> Open Project from File System
 	-> Vous n'utilisez pas Eclipse
 		-> Import Eclipse Project
+
+J'ai remarqué que les fichiers JAR créer depuis mon Mac ne tournais pas sur Windows.
+Les JAR només Windows ont été créer depuis une machine Windows avec Java Run Time dans sa dernière version et fonctionne.
 
 Je vous conseille de lancer le Serveur en double clic.
 De lancer le jeu Maitre via le double clic mais de lancer le jeu esclave en ligne de commande afin de profiter des listener vous affichant que vous recevez bel et bien les données que vous envoie le server.
